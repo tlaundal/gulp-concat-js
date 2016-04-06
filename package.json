@@ -1,0 +1,31 @@
+{
+    "name": "gulp-concat-js",
+    "version": "0.0.1",
+    "description": "Gulp plugin for concatenating javascript with sourcemaps",
+    "homepage": "http://github.com/totokaka/gulp-concat-js",
+    "repository": "git://github.com/totokaka/gulp-concat-js.git",
+    "main": "index.js",
+    "files": [
+        "index.js",
+        "lib/*.js"
+    ],
+    "keywords": [
+        "gulpplugin",
+        "gulp",
+        "sourcemaps",
+        "obfuscator",
+        "obfuscate",
+        "concat",
+        "concatenating"
+    ],
+    "author": "totokaka <mail@totokaka.io>",
+    "license": "MIT",
+    "dependencies": {
+        "concat-with-sourcemaps": "^1.0.0",
+        "gulp-util": "^3.0.1",
+        "through2": "^0.6.3"
+    },
+    "devDependencies": {
+        "gulp": "^3.8.7"
+    }
+}
