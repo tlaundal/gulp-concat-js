@@ -1,0 +1,12 @@
+{
+	"curly": true,
+	"eqeqeq": true,
+	"freeze": true,
+	"indent": 4,
+	"latedef": true,
+	"maxlen": 90,
+	"unused": true,
+	"quotmark": "double",
+    "esversion": 6,
+    "node": true
+}
