@@ -5,7 +5,6 @@ var path = require("path");
 var fs = require("fs");
 var gutil = require("gulp-util");
 var PluginError = gutil.PluginError;
-var File = gutil.File;
 var Concat  = require("concat-with-sourcemaps");
 
 module.exports = function(options) {
@@ -24,13 +23,15 @@ module.exports = function(options) {
     concat.add("./obfuscator/beginning.js", beginning);
 
 
-    function bufferContents(file, encoding, next) {
+    function transform(file, encoding, next) {
+        var context = this;
         if (file.isNull()) {
             return next();
         }
 
         if (file.isStream()) {
-            this.emit("error", new PluginError("gulp-obfuscator-js", "Streaming is not supported!"));
+            context.emit("error", new PluginError("gulp-obfuscator-js",
+                                               "Streaming is not supported!"));
             return next();
         }
 
@@ -43,7 +44,7 @@ module.exports = function(options) {
         if (file.relative.endsWith(".json")) {
             concat.add(null, "module.exports = ");
             concat.add(file.relative, file.contents, file.sourceMap);
-            concat.add(null, ";")
+            concat.add(null, ";");
         } else {
             concat.add(file.relative, file.contents, file.sourceMap);
         }
@@ -52,7 +53,8 @@ module.exports = function(options) {
         next();
     }
 
-    function endStream(next) {
+    function flush(next) {
+        var context = this;
         if (!latestFile) {
             return next();
         }
@@ -63,10 +65,10 @@ module.exports = function(options) {
         joinedFile.path = path.join(latestFile.base, options.file);
         joinedFile.contents = concat.content;
         joinedFile.sourceMap = JSON.parse(concat.sourceMap);
-        this.push(joinedFile);
+        context.push(joinedFile);
 
         next();
     }
 
-    return through.obj(bufferContents, endStream);
+    return through.obj(transform, flush);
 };
