@@ -18,7 +18,7 @@ module.exports = function(options) {
 
     var beginning = fs.readFileSync(path.join(__dirname, "./lib/beginning.js"), "utf-8");
     var end = fs.readFileSync(path.join(__dirname, "./lib/end.js"), "utf-8");
-    end = end.replace("{entry}", options.entry);
+    end = end.replace(/{entry}/g, options.entry);
 
     concat.add("./obfuscator/beginning.js", beginning);
 
@@ -40,7 +40,7 @@ module.exports = function(options) {
             latestMod = file.stat && file.stat.mtime;
         }
 
-        concat.add(null, prefix.replace("{file-relative}", "./" + file.relative));
+        concat.add(null, prefix.replace(/{file-relative}/g, "./" + file.relative));
         if (file.relative.endsWith(".json")) {
             concat.add(null, "module.exports = ");
             concat.add(file.relative, file.contents, file.sourceMap);
