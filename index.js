@@ -11,7 +11,7 @@ module.exports = function(options) {
 
     var latestFile;
     var latestMod;
-    var concat = new Concat(true, options.file, gutil.linefeed);
+    var concat = new Concat(true, options.target, gutil.linefeed);
 
     var prefix = fs.readFileSync(path.join(__dirname, "lib/prefix.js"), "utf-8");
     var suffix = fs.readFileSync(path.join(__dirname, "lib/suffix.js"), "utf-8");
@@ -62,7 +62,7 @@ module.exports = function(options) {
         concat.add("./obfuscator/end.js", end);
 
         var joinedFile = latestFile.clone({contents: false});
-        joinedFile.path = path.join(latestFile.base, options.file);
+        joinedFile.path = path.join(latestFile.base, options.target);
         joinedFile.contents = concat.content;
         joinedFile.sourceMap = JSON.parse(concat.sourceMap);
         context.push(joinedFile);
