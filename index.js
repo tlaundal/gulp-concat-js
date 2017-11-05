@@ -6,6 +6,7 @@ var fs = require("fs");
 var gutil = require("gulp-util");
 var PluginError = gutil.PluginError;
 var Concat  = require("concat-with-sourcemaps");
+var slash = require('slash');
 
 module.exports = function(options) {
 
@@ -40,13 +41,13 @@ module.exports = function(options) {
             latestMod = file.stat && file.stat.mtime;
         }
 
-        concat.add(null, prefix.replace(/{file-relative}/g, "./" + file.relative));
+        concat.add(null, prefix.replace(/{file-relative}/g, "./" + slash(file.relative)));
         if (file.relative.endsWith(".json")) {
             concat.add(null, "module.exports = ");
-            concat.add(file.relative, file.contents, file.sourceMap);
+            concat.add(slash(file.relative), file.contents, file.sourceMap);
             concat.add(null, ";");
         } else {
-            concat.add(file.relative, file.contents, file.sourceMap);
+            concat.add(slash(file.relative), file.contents, file.sourceMap);
         }
         concat.add(null, suffix);
 
